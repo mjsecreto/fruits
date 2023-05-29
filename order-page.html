@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Page</title>
+ <style>
+    /* CSS styling for the page */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    #header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .product {
+      display: inline-block;
+      width: 200px;
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease-in-out;
+    }
+    .product:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .product img {
+      max-width: 100%;
+      height: auto;
+    }
+    .product h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .product p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .product input {
+      margin-top: 10px;
+    }
+
+    #customer-info {
+      margin-top: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+	input[type="number"] {
+      width: 90%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #555;
+    }
+
+    #order-summary {
+      margin-top: 20px;
+      background-color: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+    #order-summary h2 {
+      margin: 0 0 10px;
+    }
+    #order-summary p {
+      margin: 5px 0;
+    }
+	 nav {
+      background-color: #f4f4f4;
+      padding: 10px;
+    }
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    nav ul li {
+      display: inline-block;
+      margin-right: 10px;
+    }
+	nav li {
+      margin-right: 20px;
+    }
+  
+    nav li a {
+      color: #444;
+      text-decoration: none;
+      font-size: 18px;
+    }
+  </style>
+  <script>
+    // JavaScript code for handling order submission and validation
+    function submitOrder() {
+      // Get the selected products and quantities
+      var selectedProducts = document.querySelectorAll('input[name="product"]:checked');
+      var quantities = document.querySelectorAll('input[name="quantity"]');
+
+      if (selectedProducts.length === 0) {
+        alert('Please select at least one product.');
+        return;
+      }
+
+      // Get customer information
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+
+      if (!name || !email) {
+        alert('Please provide all required customer information.');
+        return;
+      }
+
+      // Validate email format
+      var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!email.match(emailPattern)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      // Calculate the total amount
+      var totalAmount = 0;
+      var orderSummary = 'Order Summary:\n';
+      orderSummary += 'Customer Name: ' + name + '\n';
+      orderSummary += 'Email: ' + email + '\n';
+
+      for (var i = 0; i < selectedProducts.length; i++) {
+        var product = selectedProducts[i];
+        var quantity = parseInt(quantities[i].value);
+        var price = parseFloat(product.getAttribute('data-price'));
+        var productTotal = price * quantity;
+        totalAmount += productTotal;
+
+        orderSummary += 'Product: ' + product.getAttribute('data-name') + '\n';
+        orderSummary += 'Quantity: ' + quantity + '\n';
+        orderSummary += 'Total: $' + productTotal.toFixed(2) + '\n\n';
+      }
+
+      orderSummary += 'Total Amount: $' + totalAmount.toFixed(2);
+
+      // Show the confirmation window
+      if (confirm(orderSummary + '\n\nDo you want to submit this order?')) {
+        // Perform further actions (e.g., submit the order to the server)
+        alert('Order placed successfully!');
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="header">
+    <h1>Farm Fresh Fruits Ordering Page</h1>
+  </div>
+   <nav>
+   <ul>
+      <li><a href="Home-Page.html" class="nav-button">Home Page</a></li>
+      <li><a href="Product-Gallery-Page.html">Product Gallery</a></li>
+    </ul>
+  </nav>
+
+  <div id="container">
+    <h1>Product Catalog</h1>
+
+   <div class="product">
+      <img src="https://www.bhg.com/thmb/kErCUI58WFaAAjWnAhjFqgQ7w68=/2000x0/filters:no_upscale():strip_icc()/types-of-oranges-4d6a86c11fe14668ad798774e16697f8.jpg" alt="Oranges">
+      <h2>Oranges</h2>
+      <p>Price:  ₱10</p>
+      <label for="quantity1">Quantity:</label>
+      <input type="number" id="quantity1" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Oranges" data-price="10.00">
+    </div>
+
+   <div class="product">
+      <img src="https://post.healthline.com/wp-content/uploads/2020/09/Do_Apples_Affect_Diabetes_and_Blood_Sugar_Levels-732x549-thumbnail-1-732x549.jpg" alt="Product 2">
+      <h2>Apples</h2>
+      <p>Price: ₱15</p>
+      <label for="quantity2">Quantity:</label>
+      <input type="number" id="quantity2" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Apples" data-price="15.00">
+    </div>
+	<div class="product">
+      <img src="https://i0.wp.com/post.medicalnewstoday.com/wp-content/uploads/sites/3/2022/01/mangoes_what_to_know_1296x728_header-1024x575.jpg?w=1155&h=1528" alt="Product 3">
+      <h2>Mangoes</h2>
+      <p>Price: ₱15</p>
+      <label for="quantity1">Quantity:</label>
+      <input type="number" id="quantity1" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Mangoes" data-price="10.00">
+    </div>
+
+     <div class="product">
+      <img src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-11/strawberries-2-te-221104-dcb446.jpg" alt="Product 4">
+      <h2>Strawberries</h2>
+      <p>Price: ₱20</p>
+      <label for="quantity2">Quantity:</label>
+      <input type="number" id="quantity2" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Strawberries" data-price="15.00">
+    </div>
+	<div class="product">
+      <img src="https://images.everydayhealth.com/images/diet-nutrition/all-about-bananas-nutrition-facts-health-benefits-recipes-and-more-rm-722x406.jpg" alt="Product 5">
+      <h2>Bananas</h2>
+      <p>Price: ₱10</p>
+      <label for="quantity1">Quantity:</label>
+      <input type="number" id="quantity1" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Bananas" data-price="10.00">
+    </div>
+
+    <div class="product">
+      <img src="https://snaped.fns.usda.gov/sites/default/files/styles/crop_ratio_7_5/public/seasonal-produce/2018-05/grapes_0.jpg?itok=uYYnmpTm alt="Product 6">
+      <h2>Grapes</h2>
+      <p>Price: ₱20</p>
+      <label for="quantity2">Quantity:</label>
+      <input type="number" id="quantity2" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Grapes" data-price="15.00">
+    </div>
+	<div class="product">
+      <img src="https://foodphilippines.com/wp-content/uploads/2022/02/An-overview-on-Philippine-pineapples-4.jpg" alt="Product 7">
+      <h2>Pineapples</h2>
+      <p>Price: ₱30</p>
+      <label for="quantity1">Quantity:</label>
+      <input type="number" id="quantity1" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Pineapples" data-price="10.00">
+    </div>
+
+   <div class="product">
+      <img src="https://cdn.myanmarseo.com/file/client-cdn/gnlm/wp-content/uploads/2022/09/IMG-a6-sskm.jpg" alt="Product 8">
+      <h2>Avocadoes</h2>
+      <p>Price: ₱30</p>
+      <label for="quantity2">Quantity:</label>
+      <input type="number" id="quantity2" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Avocadoes" data-price="15.00">
+    </div>
+	<div class="product">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Guava_ID.jpg/1200px-Guava_ID.jpg" alt="Product 9">
+      <h2>Guavas</h2>
+      <p>Price: ₱10</p>
+      <label for="quantity1">Quantity:</label>
+      <input type="number" id="quantity1" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Guavas", data-price="10.00">
+    </div>
+     <div class="product">
+      <img src="https://cdn-prod.medicalnewstoday.com/content/images/articles/271/271232/chopped-kiwi-in-a-bowl-on-a-table.jpg" alt="Product 10">
+      <h2>Kiwis</h2>
+      <p>Price: ₱15</p>
+      <label for="quantity2">Quantity:</label>
+      <input type="number" id="quantity2" name="quantity" min="1" value="1">
+      <input type="checkbox" name="product" data-name="Kiwis" data-price="15.00">
+    </div>
+
+    <div id="customer-info">
+      <h2>Customer Information</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" required>
+      <br>
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      <br>
+      <!-- Add more customer fields as needed (e.g., address, phone) -->
+    </div>
+
+    <button onclick="submitOrder()">Submit Order</button>
+
+    <div id="order-summary">
+      <h2>Order Summary</h2>
+      <p id="customer-name"></p>
+      <p id="customer-email"></p>
+      <p id="order-details"></p>
+      <p id="total-amount"></p>
+    </div>
+  </div>
+
+<script>
+  // Update the order summary with customer information and total amount
+  function updateOrderSummary() {
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+
+    document.getElementById('customer-name').innerHTML = 'Customer Name: ' + name;
+    document.getElementById('customer-email').innerHTML = 'Email: ' + email;
+
+    var selectedProducts = document.querySelectorAll('input[name="product"]:checked');
+    var quantities = document.querySelectorAll('input[name="quantity"]');
+    var orderDetails = '';
+
+    var totalAmount = 0;
+    for (var i = 0; i < selectedProducts.length; i++) {
+      var product = selectedProducts[i];
+      var quantity = parseInt(quantities[i].value);
+      var price = parseFloat(product.getAttribute('data-price'));
+      var productTotal = price * quantity;
+      totalAmount += productTotal;
+
+     orderDetails += 'Product: ' + product.getAttribute('data-name')+" ";
+orderDetails +='Quantity: ' + quantity+" ";
+orderDetails += 'Total: ₱' + productTotal.toFixed(2) + " | ";
+
+
+    }
+
+    document.getElementById('order-details').textContent = orderDetails;
+    document.getElementById('total-amount').textContent = 'Total Amount: ₱' + totalAmount.toFixed(2);
+  }
+
+  // Add event listeners to update the order summary when inputs change
+  var inputs = document.querySelectorAll('#customer-info input');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('input', updateOrderSummary);
+  }
+  var checkboxes = document.querySelectorAll('input[name="product"]');
+  for (var i = 0; i < checkboxes.length; i++) {
+    checkboxes[i].addEventListener('change', updateOrderSummary);
+  }
+  var quantityInputs = document.querySelectorAll('input[name="quantity"]');
+  for (var i = 0; i < quantityInputs.length; i++) {
+    quantityInputs[i].addEventListener('change', updateOrderSummary);
+  }
+</script>
+
+
+</body>
+</html>
+<script>
+    // JavaScript code for handling order submission and validation
+    function submitOrder() {
+      // Get the selected products and quantities
+      var selectedProducts = document.querySelectorAll('input[name="product"]:checked');
+      var quantities = document.querySelectorAll('input[name="quantity"]');
+
+      if (selectedProducts.length === 0) {
+        alert('Please select at least one product.');
+        return;
+      }
+
+      // Get customer information
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+
+      if (!name || !email) {
+        alert('Please provide all required customer information.');
+        return;
+      }
+
+      // Validate email format
+      var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!email.match(emailPattern)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      // Calculate the total amount
+      var totalAmount = 0;
+      var orderSummary = 'Order Summary:\n';
+      orderSummary += 'Customer Name: ' + name + '\n';
+      orderSummary += 'Email: ' + email + '\n';
+
+      for (var i = 0; i < selectedProducts.length; i++) {
+        var product = selectedProducts[i];
+        var quantity = parseInt(quantities[i].value);
+        var price = parseFloat(product.getAttribute('data-price'));
+        var productTotal = price * quantity;
+        totalAmount += productTotal;
+
+        orderSummary += 'Product: ' + product.getAttribute('data-name') + '\n';
+        orderSummary += 'Quantity: ' + quantity + '\n';
+        orderSummary += 'Total: ₱' + productTotal.toFixed(2) + '\n\n';
+      }
+
+      orderSummary += 'Total Amount: ₱' + totalAmount.toFixed(2);
+
+      // Show the confirmation window
+      if (confirm(orderSummary + '\n\nDo you want to submit this order?')) {
+        // Perform further actions (e.g., submit the order to the server)
+        alert('Order placed successfully!');
+      }
+    }
+  </script>
